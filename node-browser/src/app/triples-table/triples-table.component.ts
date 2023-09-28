@@ -35,7 +35,7 @@ export class PlacesTableComponent implements OnInit {
   // Paginator for the results
   @ViewChild(MatPaginator) paginator: MatPaginator;
   // Event that sends the locations of results from a query to the parent component
-  locations: Array<string> = [];
+  //locations: Array<string> = [];
   @Output() locationEvent = new EventEmitter();
   // Event that notifies the parent component that a query has started
   @Output() searchQueryStartedEvent = new EventEmitter<boolean>();
@@ -111,9 +111,9 @@ export class PlacesTableComponent implements OnInit {
           "type": result["place_type_name"],
           "typeUri": result["place_type"],
         });
-        if (result['wkt']) {
-          this.locations.push(result['wkt']);
-        }
+        //if (result['wkt']) {
+        //  this.locations.push(result['wkt']);
+        //}
       });
       this.placesDataSource = new MatTableDataSource(this.places);
       this.queryService.query(`SELECT (COUNT(*) as ?count) { ` + results.query + 'LIMIT ' + this.pageSize * 10 + ` }`).then((res) => {

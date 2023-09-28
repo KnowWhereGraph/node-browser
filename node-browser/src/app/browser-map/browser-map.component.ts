@@ -1,7 +1,7 @@
 import { Component, Input, AfterViewInit } from '@angular/core';
 import * as L from 'leaflet';
 import '@geoman-io/leaflet-geoman-free';
-import '@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css';
+//import '@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css';
 import "leaflet.markercluster";
 import * as wkt from 'wicket'
 
@@ -18,7 +18,7 @@ export class BrowserMap implements AfterViewInit {
 
   private map: any;
   public showMap: boolean;
-  @Input() locations: any;
+  @Input() geometry: any;
 
   private initMap(): void {
     this.map = L.map('map', {

@@ -14,12 +14,14 @@ import { QueryService } from '../services/query.service'
 })
 export class BrowseComponent implements OnInit {
   // The identifier of the node being presented
+  node_id: string = '';
   node_name: string = '';
   // The full path to the node (eg stko-kwg.ucsb.edu/lod/resource/1234)
   full_node_id: string = '';
   // Event that sends the locations of people from a query to the parent component
   @Output() locationEvent = new EventEmitter();
   large: boolean = true;
+  geometry: Array<string>;
   // The fully qualified URI of predicates that should appear at the top of the page
   preferred_predicate_order: Array <string> = [
     "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
@@ -54,10 +56,24 @@ export class BrowseComponent implements OnInit {
 
 
   constructor(private route: ActivatedRoute, private queryService: QueryService) {
-    this.route.queryParams.subscribe(params => {
-        this.node_name = params['id'];
-        this.full_node_id = this.getFullNodePath(this.node_name);
+    this.geometry = [];
+    this.route.fragment.subscribe(fragment => {
+      if (fragment != null) {
+        this.node_id =fragment;
+      }
+        console.log(fragment)
+        this.full_node_id = this.getFullNodePath(this.node_id);
+        console.log(this.full_node_id)
     });
+
+    this.queryService.getLabel(this.full_node_id).subscribe({
+      next: response => {
+        let parsedResponse = this.queryService.getResults(response);
+        parsedResponse.forEach(predicate => {
+          console.log(predicate)
+          this.node_name = predicate.label.value;
+        });
+      }});
 
     this.queryService.getOutboundPredicates(this.full_node_id).subscribe({
       next: response => {
@@ -73,7 +89,7 @@ export class BrowseComponent implements OnInit {
               let parsedObjects = this.queryService.getResults(response);
               let location: string | undefined = undefined;
               parsedObjects.forEach(obj => {
-                // The shortened path of http://localhost:4200/browse?id=<object here>
+                // The shortened path of http://localhost:4200/browse/#<object here>
                 let localURI = ''
                 // If the response doesn't have a label-but is a literal, use the literal as the label
                 if (obj.label == undefined) {
@@ -111,8 +127,7 @@ export class BrowseComponent implements OnInit {
                       'localURI': localURI,
                       'dataType': ''
                     }
-
-                      )
+                    )
                   }
               // Check to see if the geometry can be sent to the map
               if(predicate.predicate.value === "http://www.opengis.net/ont/geosparql#hasGeometry" || predicate.predicate.value === "http://www.opengis.net/ont/geosparql#hasDefaultGeometry") {
@@ -121,14 +136,20 @@ export class BrowseComponent implements OnInit {
                 console.log(obj.object.value)
                 console.log(obj.object.value)
                 console.log(obj.object.value)
-                location = obj.object.value
+                // Get the geometry for the URI
+                this.queryService.getGeometry(obj.object.value).subscribe({
+                  next: response => {
+                    let geometry_response = this.queryService.getResults(response)
+                    console.log(geometry_response)
+                    if(geometry_response.length()) {
+                      this.locationEvent.emit(geometry_response);
+                      this.geometry = geometry_response;
+                    } else {
+                      console.warn("Found a geometry predicate, but failed to retrieve the geometry as WKT.")
+                    }
+                  }
+                  })
               }
-
-
-
-
-
-
             }
               });
               this.locationEvent.emit(location);
@@ -185,8 +206,7 @@ export class BrowseComponent implements OnInit {
   }
 
   getExternalKWGPath(uri: string) {
-
-    return "https://stko-kwg.geog.ucsb.edu/browse?id=".concat(this.getExternalPrefix(uri))
+    return "https://stko-kwg.geog.ucsb.edu/browse/#".concat(this.getExternalPrefix(uri))
   }
 
   /**
