@@ -1,13 +1,14 @@
 @import "../../variables.scss";
 
-.browse-body{
-  margin-left: 1rem;
-  margin-top: 1rem;
+.browse-body {
+  position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
-.map-body {
-  resize: horizontal;
-  border: 10px;
+#map {
+  height: 400px;
+  width: 100%;
 }
 
 .title {
@@ -17,18 +18,18 @@
 
 .browse-open-icon {
   transform: scale(2);
-  color: #2BA9BD;
+  color: #2ba9bd;
   margin-left: 0.5rem;
 }
 
 .browse-open-icon.table {
-  transform: scale(.75);
-  color: #2BA9BD;
-  margin: 0
+  transform: scale(0.75);
+  color: #2ba9bd;
+  margin: 0;
 }
 
 .node-title {
-  font-size:x-large;
+  font-size: x-large;
   padding-left: 1rem;
   font-weight: bold;
 }
@@ -45,7 +46,7 @@
   background-color: #f7f7f7;
 }
 .triples-table > tr:nth-of-type(even) {
-  background-color:  #f0f0f3;
+  background-color: #f0f0f3;
 }
 
 .object-tr {
@@ -67,12 +68,11 @@
   vertical-align: top;
   padding-top: 1rem;
   padding-bottom: 1rem;
-  
 }
 
 .outbound-relations {
   margin-top: 0.5rem;
-  margin-bottom: 1.0rem;  
+  margin-bottom: 1rem;
 }
 
 .pred-link {
@@ -82,12 +82,12 @@
 }
 
 .obj-link {
-  color: #2BA9BD;
+  color: #2ba9bd;
   text-decoration: none;
 }
 
 .obj-literal {
-  color: black
+  color: black;
 }
 
 .section-span {

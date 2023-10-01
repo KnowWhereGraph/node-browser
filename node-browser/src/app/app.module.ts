@@ -3,14 +3,14 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
-import {BrowseComponent} from './browse/browse.component'
-import {BrowserMap} from './browser-map/browser-map.component'
+import { BrowseComponent } from './browse/browse.component';
+import { BrowserMap } from './browser-map/browser-map.component';
 import { HeaderComponent } from './header/header.component';
 import { NavComponent } from './nav/nav.component';
 import { FooterComponent } from './footer/footer.component';
-import {MatTooltipModule} from '@angular/material/tooltip'; 
-import {MatIconModule} from '@angular/material/icon'
-
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -23,13 +23,12 @@ import {MatIconModule} from '@angular/material/icon'
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot([
-      { path: 'browse', component: BrowseComponent}
-    ]),
+    HttpClientModule,
+    RouterModule.forRoot([{ path: 'browse', component: BrowseComponent }]),
     MatIconModule,
-    MatTooltipModule
+    MatTooltipModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

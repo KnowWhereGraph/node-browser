@@ -7,18 +7,16 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
-  styleUrls: ['./nav.component.scss']
+  styleUrls: ['./nav.component.scss'],
 })
 export class NavComponent implements OnInit {
-
   /**
    * An empty constructor; this class is just markup and styling.
    */
-  constructor() { }
+  constructor() {}
 
   /**
    * An empty ngOnInit to satisfy the constraints from OnInit.
    */
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 }

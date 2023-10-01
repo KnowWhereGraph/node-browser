@@ -3,9 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  baseAddress: "https://staging.knowwheregraph.org/",
-  graphEndpoint: "https://staging.knowwheregraph.org/sparql",
-  production: false
+  baseAddress: 'https://staging.knowwheregraph.org/',
+  graphEndpoint: 'https://staging.knowwheregraph.org/sparql',
+  production: false,
 };
 
 /*

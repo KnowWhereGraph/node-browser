@@ -8,19 +8,18 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-
   /**
    * Creates a new header.
    *
    * @param router The Angular router, which is used to display the page name
    */
-  constructor(public router: Router) { }
+  constructor(public router: Router) {}
 
   /**
    * Empty ngOnInit to satisfy the header's constrains from OnInit.
    */
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 }

@@ -1,37 +1,38 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from '../../environments/environment'
+import { environment } from '../../environments/environment';
 
 /**
  * Service for making SPARQL queries. This class contains helpers for sending requests to
  * GraphDB and processing the results.
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class QueryService {
   // SPARQL Endpoint
-  private endpoint = 'https://stko-kwg.geog.ucsb.edu/graphdb/repositories/KWG';
+  private endpoint = environment.graphEndpoint;
 
   // The SPARQL query prefixes
   public prefixes = {
-    'rdf': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
-    'rdfs': 'http://www.w3.org/2000/01/rdf-schema#',
-    'xsd': 'http://www.w3.org/2001/XMLSchema#',
-    'owl': 'http://www.w3.org/2002/07/owl#',
-    'dc': 'http://purl.org/dc/elements/1.1/',
-    'dcterms': 'http://purl.org/dc/terms/',
-    'foaf': 'http://xmlns.com/foaf/0.1/',
-    'kwgr': 'http://stko-kwg.geog.ucsb.edu/lod/resource/',
+    rdf: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+    rdfs: 'http://www.w3.org/2000/01/rdf-schema#',
+    xsd: 'http://www.w3.org/2001/XMLSchema#',
+    owl: 'http://www.w3.org/2002/07/owl#',
+    dc: 'http://purl.org/dc/elements/1.1/',
+    dcterms: 'http://purl.org/dc/terms/',
+    foaf: 'http://xmlns.com/foaf/0.1/',
+    kwgr: 'http://stko-kwg.geog.ucsb.edu/lod/resource/',
     'kwg-ont': 'http://stko-kwg.geog.ucsb.edu/lod/ontology/',
-    'geo': 'http://www.opengis.net/ont/geosparql#',
-    'time': 'http://www.w3.org/2006/time#',
-    'ago': 'http://awesemantic-geo.link/ontology/',
-    'sosa': 'http://www.w3.org/ns/sosa/',
-    'elastic': 'http://www.ontotext.com/connectors/elasticsearch#',
-    'elastic-index': 'http://www.ontotext.com/connectors/elasticsearch/instance#',
-    'iospress': 'http://ld.iospress.nl/rdf/ontology/',
-    'usgs': 'http://gnis-ld.org/lod/usgs/ontology/'
+    geo: 'http://www.opengis.net/ont/geosparql#',
+    time: 'http://www.w3.org/2006/time#',
+    ago: 'http://awesemantic-geo.link/ontology/',
+    sosa: 'http://www.w3.org/ns/sosa/',
+    elastic: 'http://www.ontotext.com/connectors/elasticsearch#',
+    'elastic-index':
+      'http://www.ontotext.com/connectors/elasticsearch/instance#',
+    iospress: 'http://ld.iospress.nl/rdf/ontology/',
+    usgs: 'http://gnis-ld.org/lod/usgs/ontology/',
   };
   // A string representation of the prefixes
   prefixesCombined: string = '';
@@ -54,23 +55,23 @@ export class QueryService {
    * @param {string} query_id The identifier of the query. Should be of the form KE-1234
    * @returns
    */
-  async query(query, query_id = "KE-0") {
+  async query(query, query_id = 'KE-0') {
     let d_form = new FormData();
     d_form.append('query', this.prefixes + query);
     let d_res: any = await fetch(this.endpoint, {
       method: 'POST',
       headers: {
         Accept: 'application/sparql-results+json',
-        'X-Request-Id': query_id
+        'X-Request-Id': query_id,
       },
       body: this.getRequestBody(query),
     }).catch((error) => {
-      console.error("There was an error while running a query: ", error);
+      console.error('There was an error while running a query: ', error);
     });
 
     // Status codes need to be manually checked here
-    if(d_res.status !== 200) {
-      console.warn("There was an error running the query", query, d_res);
+    if (d_res.status !== 200) {
+      console.warn('There was an error running the query', query, d_res);
       return false;
     }
     return await d_res.json();
@@ -98,7 +99,7 @@ export class QueryService {
    */
   getRequestHeaders(id: string) {
     let headers = new HttpHeaders();
-    headers = headers.set("Content-Type", 'application/x-www-form-urlencoded');
+    headers = headers.set('Content-Type', 'application/x-www-form-urlencoded');
     headers = headers.set('Accept', 'application/sparql-results+json');
     headers = headers.set('X-Request-Id', id);
     return { headers: headers };
@@ -116,11 +117,11 @@ export class QueryService {
 
   /**
    * Retrieves the label for a node
-   * 
+   *
    * @param uri The URI whose label is being retrieved
    */
   getLabel(uri: string) {
-    let query = `SELECT ?label WHERE { <`+uri+`> rdfs:label ?label. }`
+    let query = `SELECT ?label WHERE { <` + uri + `> rdfs:label ?label. }`;
     let headers = this.getRequestHeaders('node_explorer_get_label');
     let body = this.getRequestBody(query, false);
     return this.http.post(this.endpoint, body, headers);
@@ -128,13 +129,18 @@ export class QueryService {
 
   /**
    * Retrieves all of the outbound relations for a node
-   * 
+   *
    * @param uri The URI whose relations are being retrieved
    * @returns The SPARQL ResultsSet from the endpoint
    */
   getOutboundPredicates(uri: string) {
-    let query = `SELECT DISTINCT ?predicate ?label WHERE { <`+uri+`> ?predicate ?o. OPTIONAL {?predicate rdfs:label ?label.} BIND(datatype(?object) AS ?data_type) } ORDER BY ASC(?label)`
-    let headers = this.getRequestHeaders('node_explorer_get_outbound_predicates');
+    let query =
+      `SELECT DISTINCT ?predicate ?label WHERE { <` +
+      uri +
+      `> ?predicate ?o. OPTIONAL {?predicate rdfs:label ?label.} BIND(datatype(?object) AS ?data_type) } ORDER BY ASC(?label)`;
+    let headers = this.getRequestHeaders(
+      'node_explorer_get_outbound_predicates',
+    );
     let body = this.getRequestBody(query, false);
     return this.http.post(this.endpoint, body, headers);
   }
@@ -142,11 +148,16 @@ export class QueryService {
   /**
    * Gets the outbound predicates for a node. For example <node ?predicate ?object>
    * @param uri
-   * @param predicate 
-   * @param limit 
+   * @param predicate
+   * @param limit
    */
-  getOutboundObjects(uri: string, predicate: string, limit=100) {
-    let query = `SELECT DISTINCT ?object ?label ?data_type WHERE { <`+uri+`> <`+predicate+`> ?object. OPTIONAL {?object rdfs:label ?label. } BIND(datatype(?object) AS ?data_type)} ORDER BY ASC(?label)    `
+  getOutboundObjects(uri: string, predicate: string, limit = 100) {
+    let query =
+      `SELECT DISTINCT ?object ?label ?data_type WHERE { <` +
+      uri +
+      `> <` +
+      predicate +
+      `> ?object. OPTIONAL {?object rdfs:label ?label. } BIND(datatype(?object) AS ?data_type)} ORDER BY ASC(?label)    `;
     let headers = this.getRequestHeaders('node_explorer_get_outbound_objects');
     let body = this.getRequestBody(query, true);
     return this.http.post(this.endpoint, body, headers);
@@ -154,11 +165,11 @@ export class QueryService {
 
   /**
    * Gets the geometry for a node
-   * 
+   *
    * @param uri The URI of the node whose geometry is being retrieved
    */
-  getGeometry(uri:string) {
-    let query = `SELECT ?geometry WHERE { <${uri}> geo:asWKT ?geometry . }`
+  getGeometry(uri: string) {
+    let query = `SELECT ?geometry WHERE { <${uri}> geo:asWKT ?geometry . }`;
     let headers = this.getRequestHeaders(`node_explorer_get_geometry`);
     let body = this.getRequestBody(query, true);
     return this.http.post(this.endpoint, body, headers);
