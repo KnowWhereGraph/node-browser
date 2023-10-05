@@ -1,0 +1,11 @@
+@import "../../variables.scss";
+
+.footer {
+  background: $base-dark;
+  display: flex;
+  justify-content: center;
+  padding: 100px;
+  img {
+    width: 13rem;
+  }
+}
