@@ -1,4 +1,4 @@
-FROM node:16.0.0-bullseye-slim
+FROM amd64/node:lts-buster-slim
 
 RUN mkdir /app
 WORKDIR /app

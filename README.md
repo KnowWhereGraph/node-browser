@@ -64,6 +64,21 @@ This can also be done by using the Dockerfile for a more reliable build environm
 docker-compose -f docker-compose.stage.yaml up
 ```
 
+### Local
+
+Builds that point to local GraphDB can be achieved with
+
+
+```
+ng build --configuration=local
+```
+
+This can also be done by using the Dockerfile for a more reliable build environment with
+
+```
+docker-compose -f docker-compose.local.yaml up
+```
+
 ## Developing
 
 The standard Git Flow: create a feature branch off of the `develop` branch and make pull requests into it. For full releases, merge from the `develop` branch into `main`.
