@@ -40,7 +40,14 @@ Production deployments should deploy the application by building and serving the
 To build the node explorer,
 
 ```
-ng build --configuration=prod
+ng build --configuration=production
+```
+
+This can also be done by using the Dockerfile for a more reliable build environment with
+
+```
+docker-compose -f docker-compose.prod.yaml up
+
 ```
 
 ### Staging
@@ -49,6 +56,27 @@ Staging builds are done similarly to production with
 
 ```
 ng build --configuration=stage
+```
+
+This can also be done by using the Dockerfile for a more reliable build environment with
+
+```
+docker-compose -f docker-compose.stage.yaml up
+```
+
+### Local
+
+Builds that point to local GraphDB can be achieved with
+
+
+```
+ng build --configuration=local
+```
+
+This can also be done by using the Dockerfile for a more reliable build environment with
+
+```
+docker-compose -f docker-compose.local.yaml up
 ```
 
 ## Developing
