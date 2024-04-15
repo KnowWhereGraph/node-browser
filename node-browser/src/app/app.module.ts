@@ -24,7 +24,14 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [
     BrowserModule,
     HttpClientModule,
-    RouterModule.forRoot([{ path: 'browse', component: BrowseComponent }]),
+    RouterModule.forRoot(
+      [
+        {
+          path: '',
+          component: BrowseComponent
+        }
+      ]
+    ),
     MatIconModule,
     MatTooltipModule,
   ],
