@@ -239,7 +239,7 @@ export class BrowseComponent implements OnInit {
    * @returns A URL to the browse route
    */
   getExternalKWGPath(uri: string) {
-    return `${environment.baseAddress}/browse/#${this.getExternalPrefix(uri)}`;
+    return `${environment.baseAddress}browse/#${this.getExternalPrefix(uri)}`;
   }
 
   /**
