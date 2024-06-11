@@ -3,4 +3,4 @@ services:
     build: '.'
     volumes:
       - ./dist/:/app/dist/
-    entrypoint: ["ng", "build", "--configuration=local"]
+    entrypoint: ["ng","build","--configuration=local"]
