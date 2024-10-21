@@ -21,16 +21,19 @@
           <a
             *ngIf="outbound_info.predicate_label"
             class="pred-link"
+            target="_blank"
             href="{{ outbound_info.predicate_kwg_link }}"
             >{{ outbound_info.predicate_label }}</a
           >
           <a
             *ngIf="!outbound_info.predicate_label"
             class="pred-link"
+            target="_blank"
             href="{{ outbound_info.predicate_kwg_link }}"
             >{{ outbound_info.predicate_name }}</a
           >
           <a href="{{ outbound_info.predicate_link }}"
+          target="_blank"
             ><mat-icon [inline]="true" class="browse-open-icon table"
               >open_in_new</mat-icon
             ></a
@@ -48,10 +51,11 @@
                 }}</span></span
               >
               <span *ngIf="!outbound_relation.isPredicate"
-                ><a class="obj-link" href="{{ outbound_relation.localURI }}">{{
+                ><a class="obj-link" target="_blank" href="{{ outbound_relation.localURI }}">{{
                   outbound_relation.name
                 }}</a
                 ><a href="{{ outbound_relation.link }}"
+                target="_blank"
                   ><mat-icon [inline]="true" class="browse-open-icon table"
                     >open_in_new</mat-icon
                   ></a
