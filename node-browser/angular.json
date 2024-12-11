@@ -69,7 +69,7 @@
             },
             "stko": {
               "buildOptimizer": true,
-              "optimization": true,
+              "optimization": false,
               "extractLicenses": false,
               "fileReplacements": [
                 {
