@@ -23,7 +23,7 @@ The stage environment uses the staging deployments SPARQL endpoint. It also redi
 
 ### Production Environment
 
-The prod environment uses the production SPARQL endpoint and redirects to the production server.
+The production environment is generally used as the `stko` environment. The stko environment uses the production SPARQL endpoint and redirects to the production server.
 
 ### Custom
 
