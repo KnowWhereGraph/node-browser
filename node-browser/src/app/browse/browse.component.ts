@@ -150,6 +150,7 @@ export class BrowseComponent implements OnInit {
                         dataType: '',
                       });
                     }
+                  }
                     // Check to see if the geometry can be sent to the map
                     if (
                       predicate.predicate.value ===
@@ -176,7 +177,6 @@ export class BrowseComponent implements OnInit {
                           },
                         });
                     }
-                  }
                 });
               },
             });
@@ -227,6 +227,9 @@ export class BrowseComponent implements OnInit {
    * @returns The full path of the URI
    */
   private getFullNodePath(uri: string) {
+    if(uri.includes("gnis")) {
+      return uri
+    }
     let prefix = uri.split(':')[0];
     let val = this.queryService.prefixes[prefix];
     return uri.replace(prefix.concat(':'), val);
